@@ -46,7 +46,6 @@ abstract class TestCase extends Orchestra
 
 
         Permission::findOrCreate('superuser');
-
     }
 
     protected function getPackageProviders($app)
@@ -56,7 +55,7 @@ abstract class TestCase extends Orchestra
             NotificationsServiceProvider::class,
             AuthenticationServiceProvider::class,
             WebServiceProvider::class,
-            EveapiServiceProvider::class
+            EveapiServiceProvider::class,
         ];
     }
 

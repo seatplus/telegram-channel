@@ -3,7 +3,6 @@
 
 namespace Seatplus\TelegramChannel\Jobs;
 
-
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,7 +14,10 @@ use Seatplus\TelegramChannel\Notifications\TelegramNotification;
 
 class DispatchTelegramNotifications implements ShouldQueue, ShouldBeUnique
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * The unique ID of the job.
@@ -40,5 +42,4 @@ class DispatchTelegramNotifications implements ShouldQueue, ShouldBeUnique
             SendTelegramNotificationJob::dispatch($outbox)->onQueue('medium');
         });
     }
-
 }

@@ -10,6 +10,4 @@ class TelegramUser extends Model
     use HasFactory;
 
     public $guarded = [];
-
-
 }

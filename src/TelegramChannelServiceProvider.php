@@ -4,9 +4,7 @@ namespace Seatplus\TelegramChannel;
 
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Queue\Middleware\RateLimitedWithRedis;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\Manager;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\SocialiteManager;
 use Seatplus\TelegramChannel\Jobs\DispatchTelegramNotifications;
@@ -36,7 +34,7 @@ class TelegramChannelServiceProvider extends ServiceProvider
         $this->addEventListeners();
 
         // Add rate limited
-        RateLimiter::for('telegram', fn() => Limit::perMinute(30));
+        RateLimiter::for('telegram', fn () => Limit::perMinute(30));
 
         // Add notification schedule
         $this->addTelegramSchedule();
@@ -70,13 +68,14 @@ class TelegramChannelServiceProvider extends ServiceProvider
 
     private function mergeConfigurations()
     {
-
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/notification.channel.php', 'notification.channels'
+            __DIR__ . '/../config/notification.channel.php',
+            'notification.channels'
         );
 
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/services.php', 'services'
+            __DIR__ . '/../config/services.php',
+            'services'
         );
     }
 

@@ -3,8 +3,6 @@
 
 namespace Seatplus\TelegramChannel\Notifications;
 
-
-use NotificationChannels\Telegram\TelegramChannel;
 use NotificationChannels\Telegram\TelegramMessage;
 use Seatplus\TelegramChannel\Model\TelegramUser;
 
@@ -18,11 +16,10 @@ class NewEveMail extends TelegramNotification
 
     public function toTelegram(TelegramUser $telegramUser): TelegramMessage
     {
-
         $text = implode(' \n ', [
             '*New mail:*',
             "From: *{$this->sender_name}*",
-            "Subject: _{$this->subject}_"
+            "Subject: _{$this->subject}_",
         ]);
 
         return TelegramMessage::create()

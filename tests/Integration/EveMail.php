@@ -14,7 +14,7 @@ beforeEach(function () {
         'id' => $this->test_user->id,
         'user_id' => $this->test_user->id,
         'nickname' => $this->test_character->name,
-        'name' => $this->test_character->name
+        'name' => $this->test_character->name,
     ]);
 
     expect(TelegramUser::all())->toHaveCount(1);
@@ -36,15 +36,12 @@ beforeEach(function () {
 });
 
 it('can store eve mail notication in outbox', function () {
-
     expect(Outbox::all())->toHaveCount(1);
     expect(Outbox::first()->notification instanceof TelegramNotification)->toBeTrue();
     expect(Outbox::first()->notifiable instanceof TelegramUser)->toBeTrue();
-
 });
 
 it('sends message from job', function () {
-
     Notification::fake();
 
     Notification::assertNothingSent();
@@ -52,9 +49,9 @@ it('sends message from job', function () {
     (new SendTelegramNotificationJob(Outbox::first()))->handle();
 
     Notification::assertSentTo(
-        [Outbox::first()->notifiable], NewEveMail::class
+        [Outbox::first()->notifiable],
+        NewEveMail::class
     );
-
 });
 
 it('dispatches telegram notification job from dispatchTelegramNotifications', function () {
