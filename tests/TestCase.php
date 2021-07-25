@@ -1,29 +1,62 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Seatplus\TelegramChannel\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Queue;
+use Inertia\Inertia;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Seatplus\Auth\AuthenticationServiceProvider;
+use Seatplus\Auth\Models\Permissions\Permission;
 use Seatplus\Auth\Models\User;
-use VendorName\Skeleton\SkeletonServiceProvider;
+use Seatplus\Eveapi\EveapiServiceProvider;
+use Seatplus\Notifications\NotificationsServiceProvider;
+use Seatplus\TelegramChannel\TelegramChannelServiceProvider;
+use Seatplus\TelegramChannel\Tests\Stubs\Kernel;
+use Seatplus\Web\WebServiceProvider;
 
-class TestCase extends Orchestra
+abstract class TestCase extends Orchestra
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Seatplus\\TelegramChannel\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
+
+        //Setup Inertia Root View
+        Inertia::setRootView('web::app');
+
+        //Do not use the queue
+        Queue::fake();
+
+        // setup database
+        $this->setupDatabase($this->app);
+
+        /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
+        $this->test_user = Event::fakeFor(function () {
+            return User::factory()->create();
+        });
+
+        $this->test_character = $this->test_user->characters->first();
+
+        $this->app->instance('path.public', __DIR__ .'/../vendor/seatplus/web/src/public');
+
+
+        Permission::findOrCreate('superuser');
+
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            SkeletonServiceProvider::class,
+            TelegramChannelServiceProvider::class,
+            NotificationsServiceProvider::class,
             AuthenticationServiceProvider::class,
+            WebServiceProvider::class,
+            EveapiServiceProvider::class
         ];
     }
 
@@ -66,7 +99,7 @@ class TestCase extends Orchestra
      */
     protected function resolveApplicationHttpKernel($app)
     {
-        //$app->singleton('Illuminate\Contracts\Http\Kernel', Kernel::class);
+        $app->singleton('Illuminate\Contracts\Http\Kernel', Kernel::class);
     }
 
     /**
