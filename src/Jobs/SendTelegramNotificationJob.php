@@ -57,5 +57,7 @@ class SendTelegramNotificationJob implements ShouldQueue, ShouldBeUnique
     public function handle()
     {
         Notification::send([$this->outbox->notifiable], $this->notification);
+
+        $this->outbox->update(['is_sent' => true]);
     }
 }

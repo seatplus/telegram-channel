@@ -30,8 +30,8 @@ beforeEach(function () {
     Outbox::create([
         'notifiable_type' => TelegramUser::class,
         'notifiable_id' => $telegram_user->id,
-        'notification' => serialize($notification),
-        'is_send' => false,
+        'notification' => $notification,
+        'is_sent' => false,
     ]);
 });
 
