@@ -36,10 +36,11 @@ class DispatchTelegramNotifications implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
-        Outbox::cursor()->filter(function ($outbox) {
-            return $outbox->notification instanceof TelegramNotification;
-        })->each(function ($outbox) {
-            SendTelegramNotificationJob::dispatch($outbox)->onQueue('medium');
-        });
+        Outbox::cursor()->filter(fn($outbox) => !$outbox->is_sent)
+            ->filter(function ($outbox) {
+                return $outbox->notification instanceof TelegramNotification;
+            })->each(function ($outbox) {
+                SendTelegramNotificationJob::dispatch($outbox)->onQueue('medium');
+            });
     }
 }
