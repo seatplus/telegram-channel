@@ -4,6 +4,7 @@
 namespace Seatplus\TelegramChannel\Notifications;
 
 use NotificationChannels\Telegram\TelegramMessage;
+use Seatplus\TelegramChannel\Model\TelegramNotifiable;
 use Seatplus\TelegramChannel\Model\TelegramUser;
 
 class NewEveMail extends TelegramNotification
@@ -14,7 +15,7 @@ class NewEveMail extends TelegramNotification
     const PERMISSION_STRING = 'can subscribe to notifications';
     const CORPORATION_ROLE_STRING = '';
 
-    public function toTelegram(TelegramUser $telegramUser): TelegramMessage
+    public function toTelegram(TelegramNotifiable $notifiable): TelegramMessage
     {
         $text = implode(' \n ', [
             '*New mail:*',
@@ -23,7 +24,7 @@ class NewEveMail extends TelegramNotification
         ]);
 
         return TelegramMessage::create()
-            ->to($telegramUser->id)
+            ->to($notifiable->id)
             ->content("*New mail:*\nFrom: *{$this->sender_name}*\nSubject: _{$this->subject}_")
             ->button('View mail', $this->route);
     }

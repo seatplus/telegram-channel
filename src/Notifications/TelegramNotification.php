@@ -6,6 +6,7 @@ namespace Seatplus\TelegramChannel\Notifications;
 use NotificationChannels\Telegram\TelegramChannel;
 use NotificationChannels\Telegram\TelegramMessage;
 use Seatplus\Notifications\Notifications\NewEveMail as NewEveMailBase;
+use Seatplus\TelegramChannel\Model\TelegramNotifiable;
 use Seatplus\TelegramChannel\Model\TelegramUser;
 
 abstract class TelegramNotification extends NewEveMailBase
@@ -15,5 +16,5 @@ abstract class TelegramNotification extends NewEveMailBase
         return [TelegramChannel::class];
     }
 
-    abstract public function toTelegram(TelegramUser $telegramUser) : TelegramMessage;
+    abstract public function toTelegram(TelegramNotifiable $notifiable) : TelegramMessage;
 }
