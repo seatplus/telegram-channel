@@ -11,13 +11,12 @@ class NewEveMail extends NewEveMailBase
 {
     use TelegramNotification;
 
-    static string $icon = 'InboxInIcon';
-    static string $title = 'New Eve Mail Notification';
-    static string $description = 'Get notified whenever you receive a new eve mail';
+    public static string $icon = 'InboxInIcon';
+    public static string $title = 'New Eve Mail Notification';
+    public static string $description = 'Get notified whenever you receive a new eve mail';
 
     public function toTelegram(TelegramNotifiable $notifiable): TelegramMessage
     {
-
         return TelegramMessage::create()
             ->to($notifiable->id)
             ->content("*New mail:*\nFrom: *{$this->sender_name}*\nSubject: _{$this->subject}_")

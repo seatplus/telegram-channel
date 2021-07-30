@@ -59,7 +59,7 @@ class TelegramChannelServiceProvider extends ServiceProvider
 
         // Register the Socialite Factory.
         // From: Laravel\Socialite\SocialiteServiceProvider
-        if(!$this->app->bound('Laravel\Socialite\Contracts\Factory')) {
+        if (! $this->app->bound('Laravel\Socialite\Contracts\Factory')) {
             $this->app->singleton('Laravel\Socialite\Contracts\Factory', function ($app) {
                 return new SocialiteManager($app);
             });

@@ -13,7 +13,6 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Notification;
 use Seatplus\Notifications\Models\Outbox;
 use Seatplus\Notifications\Notifications\DescribeNotificationInterface;
-use Seatplus\TelegramChannel\Notifications\TelegramNotification;
 
 class SendTelegramNotificationJob implements ShouldQueue, ShouldBeUnique
 {

@@ -3,7 +3,6 @@
 
 namespace Seatplus\TelegramChannel\Services;
 
-
 use Exception;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException;
@@ -16,11 +15,11 @@ class Telegram
     protected string $apiBaseUri;
 
     public function __construct(
-        protected string|null $token = null,
+        protected string | null $token = null,
         ?HttpClient $httpClient = null,
-        $apiBaseUri = null)
+        $apiBaseUri = null
+    )
     {
-
         $this->http = $httpClient ?? new HttpClient();
         $this->setApiBaseUri($apiBaseUri ?? 'https://api.telegram.org');
     }
@@ -63,7 +62,7 @@ class Telegram
 
     public function getUpdates(array $params): ?ResponseInterface
     {
-        return $this->sendRequest('GET','getUpdates', $params);
+        return $this->sendRequest('GET', 'getUpdates', $params);
     }
 
     protected function sendRequest(string $method, string $endpoint, array $params, bool $multipart = false): ?ResponseInterface
@@ -84,5 +83,4 @@ class Telegram
             throw CouldNotSendNotification::couldNotCommunicateWithTelegram($exception);
         }
     }
-
 }

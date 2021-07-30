@@ -37,7 +37,7 @@ beforeEach(function () {
 
 it('can store eve mail notication in outbox', function () {
     expect(Outbox::all())->toHaveCount(1);
-    expect(in_array(TelegramNotification::class, class_uses(Outbox::first()->notification)) )->toBeTrue();
+    expect(in_array(TelegramNotification::class, class_uses(Outbox::first()->notification)))->toBeTrue();
     expect(Outbox::first()->notifiable instanceof TelegramUser)->toBeTrue();
 });
 

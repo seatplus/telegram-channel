@@ -5,9 +5,7 @@ namespace Seatplus\TelegramChannel\Notifications;
 
 use NotificationChannels\Telegram\TelegramChannel;
 use NotificationChannels\Telegram\TelegramMessage;
-use Seatplus\Notifications\Notifications\NewEveMail as NewEveMailBase;
 use Seatplus\TelegramChannel\Model\TelegramNotifiable;
-use Seatplus\TelegramChannel\Model\TelegramUser;
 
 trait TelegramNotification
 {

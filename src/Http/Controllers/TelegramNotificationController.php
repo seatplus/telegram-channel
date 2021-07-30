@@ -53,46 +53,46 @@ class TelegramNotificationController extends Controller
 
     public function getChannels()
     {
-       $telegram_user = TelegramUser::query()
+        $telegram_user = TelegramUser::query()
            ->where('user_id', auth()->user()->getAuthIdentifier())
            ->get()
            ->map(fn ($telegram_user) => [
                'name' => $telegram_user->name,
                'notifiable' => [
                    'notifiable_type' => TelegramUser::class,
-                   'notifiable_id' => $telegram_user->id
-               ]
+                   'notifiable_id' => $telegram_user->id,
+               ],
            ])
            ->first();
 
 
-        $channels = TelegramChannel::all()->map(fn($channel) => [
+        $channels = TelegramChannel::all()->map(fn ($channel) => [
             'name' => $channel->name,
             'notifiable' => [
                 'notifiable_id' => $channel->id,
-                'notifiable_type' => TelegramChannel::class
-            ]
+                'notifiable_type' => TelegramChannel::class,
+            ],
         ]);
 
         return [
             $telegram_user,
-            ...$channels->toArray()
+            ...$channels->toArray(),
         ];
     }
 
     public function registerChannel(Request $request, Telegram $telegram)
     {
         $validated_data = $request->validate([
-            'id' => ['required', 'string']
+            'id' => ['required', 'string'],
         ]);
 
         $response = $telegram->getUpdates([
-            'allowed_updates' => 'message'
+            'allowed_updates' => 'message',
         ]);
 
         $result = data_get(json_decode($response->getBody()->getContents(), true), 'result', []);
 
-        $filtered = Arr::where($result, fn($value) => Str::contains(data_get($value, 'message.text'), $validated_data['id']));
+        $filtered = Arr::where($result, fn ($value) => Str::contains(data_get($value, 'message.text'), $validated_data['id']));
 
         abort_unless((bool) $filtered, 403, 'Could not find telegram channel, are you positive you wrote the presented code?');
 
@@ -100,15 +100,11 @@ class TelegramNotificationController extends Controller
         $chat_title = data_get(head($filtered), 'message.chat.title');
 
         TelegramChannel::firstOrCreate([
-            'id' => $chat_id
+            'id' => $chat_id,
         ], [
-            'name' => $chat_title
+            'name' => $chat_title,
         ]);
 
         return redirect()->route('telegram.notification.index');
-
-
     }
-
-
 }

@@ -1,13 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Queue;
 use Seatplus\Notifications\Models\Outbox;
-use Seatplus\TelegramChannel\Jobs\DispatchTelegramNotifications;
 use Seatplus\TelegramChannel\Jobs\SendTelegramNotificationJob;
 use Seatplus\TelegramChannel\Model\TelegramUser;
 use Seatplus\TelegramChannel\Notifications\NewCorporationMember;
-use Seatplus\TelegramChannel\Notifications\NewEveMail;
 use Seatplus\TelegramChannel\Notifications\TelegramNotification;
 
 beforeEach(function () {
@@ -36,7 +33,7 @@ beforeEach(function () {
 
 it('can store eve mail notication in outbox', function () {
     expect(Outbox::all())->toHaveCount(1);
-    expect(in_array(TelegramNotification::class, class_uses(Outbox::first()->notification)) )->toBeTrue();
+    expect(in_array(TelegramNotification::class, class_uses(Outbox::first()->notification)))->toBeTrue();
     expect(Outbox::first()->notification instanceof NewCorporationMember)->toBeTrue();
     expect(Outbox::first()->notifiable instanceof TelegramUser)->toBeTrue();
 });
