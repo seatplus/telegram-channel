@@ -45,7 +45,7 @@ class TelegramNotificationController extends Controller
         return inertia('Notifications/TelegramIndex', [
             'isSetup' => (bool) data_get(config('services.telegram'), 'client_secret'),
             'channels' => $channels,
-            'canSubscribeToChannels' => auth()->user()->can('can subscribe to notifications'),
+            'canSubscribeToChannels' => auth()->user()->can('can subscribe to non-self notifications'),
             'notifiable' => $notifiable,
             'notifications' => $notifications->toArray(),
         ]);

@@ -12,6 +12,7 @@ use Illuminate\Queue\Middleware\RateLimitedWithRedis;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Notification;
 use Seatplus\Notifications\Models\Outbox;
+use Seatplus\Notifications\Notifications\DescribeNotificationInterface;
 use Seatplus\TelegramChannel\Notifications\TelegramNotification;
 
 class SendTelegramNotificationJob implements ShouldQueue, ShouldBeUnique
@@ -21,7 +22,7 @@ class SendTelegramNotificationJob implements ShouldQueue, ShouldBeUnique
     use Queueable;
     use SerializesModels;
 
-    public TelegramNotification $notification;
+    public DescribeNotificationInterface $notification;
 
     public function __construct(
         public Outbox $outbox

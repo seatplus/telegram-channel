@@ -15,17 +15,11 @@
             "role": "Developer"
         }
     ],
-  "repositories": [
-    {
-      "type": "path",
-      "url": "../notifications"
-    }
-  ],
     "require": {
         "php": "^8.0",
         "illuminate/contracts": "^8.37",
         "laravel-notification-channels/telegram": "^0.5.1",
-        "seatplus/notifications": "*",
+        "seatplus/notifications": "^0.1",
         "socialiteproviders/telegram": "^4.1.2"
     },
     "require-dev": {
