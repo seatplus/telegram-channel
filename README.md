@@ -1,9 +1,9 @@
 # :package_description
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/vendor_slug/package_slug.svg?style=flat-square)](https://packagist.org/packages/vendor_slug/package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/vendor_slug/package_slug/run-tests?label=tests)](https://github.com/vendor_slug/package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/vendor_slug/package_slug/Check%20&%20fix%20styling?label=code%20style)](https://github.com/vendor_slug/package_slug/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/vendor_slug/package_slug.svg?style=flat-square)](https://packagist.org/packages/vendor_slug/package_slug)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/seatplus/telegram-channel.svg?style=flat-square)](https://packagist.org/packages/seatplus/telegram-channel)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/seatplus/telegram-channel/run-tests?label=tests)](https://github.com/seatplus/telegram-channel/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/seatplus/telegram-channel/Check%20&%20fix%20styling?label=code%20style)](https://github.com/seatplus/telegram-channel/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/seatplus/telegram-channel.svg?style=flat-square)](https://packagist.org/packages/seatplus/telegram-channel)
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
@@ -33,12 +33,6 @@ TELEGRAM_REDIRECT_URI=http://yourdomain.tld/auth/telegram/callback
 ```
 make sure to replace `yourdomain.tld` with your actual domain.
 
-## Usage
-
-```php
-$skeleton = new VendorName\Skeleton();
-echo $skeleton->echoPhrase('Hello, Spatie!');
-```
 
 ## Testing
 
@@ -60,7 +54,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Herpaderp Aldent](https://github.com/herpaderpaldent)
 - [All Contributors](../../contributors)
 
 ## License
