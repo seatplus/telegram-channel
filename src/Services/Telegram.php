@@ -18,8 +18,7 @@ class Telegram
         protected string | null $token = null,
         ?HttpClient $httpClient = null,
         $apiBaseUri = null
-    )
-    {
+    ) {
         $this->http = $httpClient ?? new HttpClient();
         $this->setApiBaseUri($apiBaseUri ?? 'https://api.telegram.org');
     }
