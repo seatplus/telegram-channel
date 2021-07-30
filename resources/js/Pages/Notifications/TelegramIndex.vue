@@ -53,18 +53,27 @@
 
     <div
       v-else
-      class="bg-white"
+      class="space-y-3"
     >
-      <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
-          <NotificationComponent
-            v-for="object in notifications"
-            :key="object.title"
-            :notification-object="object"
-            :notifiable="notifiable"
-          >
-            <TelegramLogin v-show="!notifiable" />
-          </NotificationComponent>
+      <TelegramChannel
+        v-if="canSubscribeToChannels"
+        v-model="selectedNotifiable"
+      />
+      <div
+        :key="notifiable_id"
+        class="bg-white"
+      >
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-2 gap-8 md:grid-cols-6 lg:grid-cols-5">
+            <NotificationComponent
+              v-for="object in notifications"
+              :key="object.title"
+              :notification-object="object"
+              :notifiable="selectedNotifiable"
+            >
+              <TelegramLogin v-show="!notifiable" />
+            </NotificationComponent>
+          </div>
         </div>
       </div>
     </div>
@@ -80,10 +89,12 @@ import route from "ziggy";
 import * as SolidHeroIcons from '@heroicons/vue/outline'
 import NotificationComponent from "@/Shared/Notifications/Layout/NotificationComponent";
 import TelegramLogin from "./Telegram/TelegramLogin";
+import TelegramChannel from "./Telegram/TelegramChannel";
+import {computed, ref} from "vue";
 
 export default {
     name: "TelegramIndex",
-    components: {TelegramLogin, NotificationComponent, PageHeader, ...SolidHeroIcons},
+    components: {TelegramChannel, TelegramLogin, NotificationComponent, PageHeader, ...SolidHeroIcons},
     props: {
         channels: {
             required: true,
@@ -101,17 +112,27 @@ export default {
         notifications: {
             required: true,
             type: Object
+        },
+        canSubscribeToChannels: {
+            required: true,
+            type: Boolean
         }
     },
-    setup() {
+    setup(props) {
+
+        const selectedNotifiable = ref(props.notifiable)
 
         function visit(route_name) {
             return Inertia.visit(route(route_name))
         }
 
+        const notifiable_id = computed(() => _.get(selectedNotifiable.value, 'notifiable_id', new Date()))
+
         return {
             pageTitle: 'Notifications: Telegram',
-            visit
+            visit,
+            selectedNotifiable,
+            notifiable_id
         }
     }
 }

@@ -1,12 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Queue;
 use Seatplus\Notifications\Models\Outbox;
-use Seatplus\TelegramChannel\Jobs\DispatchTelegramNotifications;
 use Seatplus\TelegramChannel\Jobs\SendTelegramNotificationJob;
 use Seatplus\TelegramChannel\Model\TelegramUser;
-use Seatplus\TelegramChannel\Notifications\NewEveMail;
+use Seatplus\TelegramChannel\Notifications\NewCorporationMember;
 use Seatplus\TelegramChannel\Notifications\TelegramNotification;
 
 beforeEach(function () {
@@ -19,12 +17,10 @@ beforeEach(function () {
 
     expect(TelegramUser::all())->toHaveCount(1);
 
-    $notification = new NewEveMail(
-        1337,
-        'TestName',
-        'test-subject',
-        carbon()->subDay(),
-        route('character.mails')
+    $notification = new NewCorporationMember(
+        $this->test_character->corporation->name,
+        $this->test_character->name,
+        'start_date',
     );
 
     Outbox::create([
@@ -38,6 +34,7 @@ beforeEach(function () {
 it('can store eve mail notication in outbox', function () {
     expect(Outbox::all())->toHaveCount(1);
     expect(in_array(TelegramNotification::class, class_uses(Outbox::first()->notification)))->toBeTrue();
+    expect(Outbox::first()->notification instanceof NewCorporationMember)->toBeTrue();
     expect(Outbox::first()->notifiable instanceof TelegramUser)->toBeTrue();
 });
 
@@ -50,16 +47,6 @@ it('sends message from job', function () {
 
     Notification::assertSentTo(
         [Outbox::first()->notifiable],
-        NewEveMail::class
+        NewCorporationMember::class
     );
-});
-
-it('dispatches telegram notification job from dispatchTelegramNotifications', function () {
-    Queue::fake();
-
-    Queue::assertNothingPushed();
-
-    (new DispatchTelegramNotifications)->handle();
-
-    Queue::assertPushedOn('medium', SendTelegramNotificationJob::class);
 });

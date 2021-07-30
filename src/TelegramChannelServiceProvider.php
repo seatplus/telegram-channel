@@ -2,12 +2,14 @@
 
 namespace Seatplus\TelegramChannel;
 
+use GuzzleHttp\Client as HttpClient;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Socialite\SocialiteManager;
 use Seatplus\TelegramChannel\Jobs\DispatchTelegramNotifications;
+use Seatplus\TelegramChannel\Services\Telegram;
 use SocialiteProviders\Manager\SocialiteWasCalled;
 use SocialiteProviders\Telegram\Provider;
 use SocialiteProviders\Telegram\TelegramExtendSocialite;
@@ -41,6 +43,14 @@ class TelegramChannelServiceProvider extends ServiceProvider
 
         // Add translations
         //$this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'web');
+
+        $this->app->singleton(Telegram::class, function ($app) {
+            return new Telegram(
+                config('services.telegram-bot-api.token'),
+                app(HttpClient::class),
+                config('services.telegram-bot-api.base_uri')
+            );
+        });
     }
 
     public function register()
@@ -49,9 +59,11 @@ class TelegramChannelServiceProvider extends ServiceProvider
 
         // Register the Socialite Factory.
         // From: Laravel\Socialite\SocialiteServiceProvider
-        $this->app->singleton('Laravel\Socialite\Contracts\Factory', function ($app) {
-            return new SocialiteManager($app);
-        });
+        if (! $this->app->bound('Laravel\Socialite\Contracts\Factory')) {
+            $this->app->singleton('Laravel\Socialite\Contracts\Factory', function ($app) {
+                return new SocialiteManager($app);
+            });
+        }
 
         // Slap in the Telegram Socialite Provider
         $socialite = $this->app->make('Laravel\Socialite\Contracts\Factory');

@@ -18,5 +18,11 @@ Route::middleware(['web', 'auth'])
                 Route::get('/infos', [TelegramAuthController::class, 'infos'])->name('telegram.auth.infos');
             });
 
+        Route::prefix('/channels/')
+            ->group(function () {
+                Route::get('', [TelegramNotificationController::class, 'getChannels'])->name('telegram.get.channels');
+                Route::post('register', [TelegramNotificationController::class, 'registerChannel'])->name('telegram.register.channels');
+            });
+
     });
 
