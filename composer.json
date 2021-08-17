@@ -16,6 +16,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "composer/composer": "^2.1",
         "illuminate/contracts": "^8.37",
         "laravel-notification-channels/telegram": "^0.5.1",
         "seatplus/notifications": "^0.1",
